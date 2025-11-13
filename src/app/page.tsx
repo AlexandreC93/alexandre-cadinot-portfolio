@@ -155,6 +155,13 @@ export default function HomePage() {
     null
   );
 
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartScrollLeftRef = useRef(0);
+  const dragDeltaRef = useRef(0);
+
+
+
   const notifyInteraction = () => {
     userInteractingRef.current = true;
     if (interactionTimeoutRef.current) {
@@ -167,7 +174,6 @@ export default function HomePage() {
   };
 
   const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
-    // on signale que l'utilisateur interagit (ça met en pause l'auto-scroll)
     notifyInteraction();
 
     // si le scroll est principalement vertical, on le convertit en horizontal
@@ -176,6 +182,42 @@ export default function HomePage() {
       e.currentTarget.scrollLeft += e.deltaY;
     }
   };
+
+  const handleMouseDown: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    notifyInteraction();
+    isDraggingRef.current = true;
+    dragStartXRef.current = e.clientX;
+    dragStartScrollLeftRef.current = el.scrollLeft;
+    dragDeltaRef.current = 0; // on reset le delta
+  };
+
+
+  const endDrag = () => {
+    isDraggingRef.current = false;
+  };
+
+  const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    if (!isDraggingRef.current) return;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    notifyInteraction();
+    const dx = e.clientX - dragStartXRef.current;
+    dragDeltaRef.current = Math.abs(dx); // on garde combien on a vraiment bougé
+    el.scrollLeft = dragStartScrollLeftRef.current - dx;
+  };
+
+  const handleCardClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    // si on a dragué de plus de 5px, on considère que c'était un drag, pas un vrai clic
+    if (dragDeltaRef.current > 5) {
+      e.preventDefault();
+    }
+  };
+
+
 
 
   // Auto-scroll horizontal doux
@@ -325,11 +367,15 @@ export default function HomePage() {
           {/* SCROLL HORIZONTAL AUTO + SANS BARRE VISIBILE */}
           <div
             ref={scrollRef}
-            className="no-scrollbar overflow-x-auto overflow-y-visible pb-10 pt-4"
+            className="no-scrollbar overflow-x-auto overflow-y-visible pb-10 pt-4 cursor-grab active:cursor-grabbing"
             onWheel={handleWheel}
-            onMouseDown={notifyInteraction}
+            onMouseDown={handleMouseDown}
+            onMouseUp={endDrag}
+            onMouseLeave={endDrag}
+            onMouseMove={handleMouseMove}
             onTouchStart={notifyInteraction}
           >
+
 
             <div className="flex snap-x snap-mandatory gap-8 px-4 py-4 sm:px-6">
               {PROJECTS.map((project) => {
@@ -352,14 +398,18 @@ export default function HomePage() {
                     key={project.id}
                     href={project.href ?? project.repo ?? "#"}
                     className="group relative snap-start"
+                    onClick={handleCardClick}
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                   >
+
                     {/* Halo gradient */}
                     <div
                       className={`pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br ${accentBg} opacity-30 blur-xl transition group-hover:opacity-70 dark:opacity-60`}
                     />
 
                     {/* CARD */}
-                    <div className="relative flex h-full min-w-[300px] max-w-xs transform-gpu flex-col justify-between rounded-3xl border border-slate-200 bg-white/95 p-6 text-left shadow-[0_18px_40px_rgba(148,163,184,0.35)] backdrop-blur-xl transition group-hover:scale-[1.04] group-hover:border-slate-400/80 dark:border-slate-800/80 dark:bg-slate-950/90 dark:shadow-[0_18px_40px_rgba(0,0,0,0.7)] sm:min-w-[360px] sm:max-w-sm">
+                    <div className="relative flex h-full min-w-[300px] max-w-xs transform-gpu flex-col justify-between rounded-3xl border border-slate-200 bg-white/95 p-6 text-left shadow-[0_18px_40px_rgba(148,163,184,0.35)] backdrop-blur-xl transition group-hover:scale-[1.04] group-hover:border-slate-400/80 dark:border-slate-800/80 dark:bg-slate-950/90 dark:shadow-[0_18px_40px_rgba(0,0,0,0.7)] sm:min-w-[360px] sm:max-w-sm select-none">
                       <div className="space-y-4">
                         <div className="flex items-center justify-between gap-3">
                           <span
