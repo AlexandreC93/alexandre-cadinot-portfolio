@@ -372,7 +372,7 @@ export default function HomePage() {
             onMouseUp={endDrag}
             onMouseLeave={endDrag}
             onMouseMove={handleMouseMove}
-            // onTouchStart={notifyInteraction}
+            onTouchStart={notifyInteraction}
           >
 
 
