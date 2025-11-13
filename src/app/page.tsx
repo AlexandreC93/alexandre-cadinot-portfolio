@@ -166,6 +166,18 @@ export default function HomePage() {
     }, 1500);
   };
 
+  const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
+    // on signale que l'utilisateur interagit (ça met en pause l'auto-scroll)
+    notifyInteraction();
+
+    // si le scroll est principalement vertical, on le convertit en horizontal
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      e.currentTarget.scrollLeft += e.deltaY;
+    }
+  };
+
+
   // Auto-scroll horizontal doux
   useEffect(() => {
     let frameId: number;
@@ -314,10 +326,11 @@ export default function HomePage() {
           <div
             ref={scrollRef}
             className="no-scrollbar overflow-x-auto overflow-y-visible pb-10 pt-4"
-            onWheel={notifyInteraction}
+            onWheel={handleWheel}
             onMouseDown={notifyInteraction}
             onTouchStart={notifyInteraction}
           >
+
             <div className="flex snap-x snap-mandatory gap-8 px-4 py-4 sm:px-6">
               {PROJECTS.map((project) => {
                 const accentBg =
