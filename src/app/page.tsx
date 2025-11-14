@@ -174,14 +174,11 @@ export default function HomePage() {
   };
 
   const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
+    // On signale juste l'interaction (pour couper l'auto-scroll),
+    // mais on ne touche pas au scroll et on ne fait pas preventDefault.
     notifyInteraction();
-
-    // si le scroll est principalement vertical, on le convertit en horizontal
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-      e.preventDefault();
-      e.currentTarget.scrollLeft += e.deltaY;
-    }
   };
+
 
   const handleMouseDown: React.MouseEventHandler<HTMLDivElement> = (e) => {
     const el = scrollRef.current;
