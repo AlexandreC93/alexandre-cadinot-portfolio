@@ -352,8 +352,7 @@ export default function HomePage() {
               Projects & demos
             </h2>
             <p className="mt-2 max-w-md text-sm text-slate-600 dark:text-slate-400">
-              A curated selection of backend, AI and automation projects. The
-              gallery scrolls automatically, and you can also drag / scroll.
+              A curated selection of my projects.
             </p>
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
@@ -377,8 +376,8 @@ export default function HomePage() {
           >
 
 
-            <div className="flex snap-x snap-mandatory gap-8 px-4 py-4 sm:px-6">
-              {PROJECTS.map((project) => {
+            <div className="flex gap-8 px-4 py-4 sm:px-6">
+              {[...PROJECTS, ...PROJECTS].map((project, idx) => {
                 const accentBg =
                   project.accent === "emerald"
                     ? "from-emerald-400/60 via-emerald-500/30 to-cyan-300/40"
@@ -395,14 +394,13 @@ export default function HomePage() {
 
                 return (
                   <a
-                    key={project.id}
+                    key={project.id + "-" + idx}
                     href={project.href ?? project.repo ?? "#"}
                     className="group relative snap-start"
                     onClick={handleCardClick}
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                   >
-
                     {/* Halo gradient */}
                     <div
                       className={`pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br ${accentBg} opacity-30 blur-xl transition group-hover:opacity-70 dark:opacity-60`}
@@ -458,6 +456,7 @@ export default function HomePage() {
                 );
               })}
             </div>
+
           </div>
         </RevealOnScroll>
       </section>
@@ -591,7 +590,7 @@ export default function HomePage() {
             target="_blank"
             className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-800 shadow-sm hover:border-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-slate-500 dark:hover:bg-slate-900/80"
           >
-            <span>📄 View my CV (Canva)</span>
+            <span>📄 View my CV</span>
           </a>
         </div>
       </section>
