@@ -217,7 +217,16 @@ export default function HomePage() {
     }
   };
 
+  const handleMouseEnterContainer = () => {
+    // dès qu'on survole, on stop l'auto-scroll
+    userInteractingRef.current = true;
+  };
 
+  const handleMouseLeaveContainer = () => {
+    // quand on sort, on remet l'auto-scroll
+    userInteractingRef.current = false;
+    endDrag();
+  };
 
 
   // Auto-scroll horizontal doux
@@ -370,10 +379,14 @@ export default function HomePage() {
             onWheel={handleWheel}
             onMouseDown={handleMouseDown}
             onMouseUp={endDrag}
-            onMouseLeave={endDrag}
             onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeaveContainer}
+            onMouseEnter={handleMouseEnterContainer}
             onTouchStart={notifyInteraction}
+            onTouchMove={notifyInteraction}
+            onTouchEnd={notifyInteraction}
           >
+
 
 
             <div className="flex gap-8 px-4 py-4 sm:px-6">
