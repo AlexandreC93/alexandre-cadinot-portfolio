@@ -596,7 +596,7 @@ export default function HomePage() {
 
         <div className="mt-4">
           <a
-            href="https://www.canva.com/design/DAGp9xslbdM/zBDFg-K3LveLKzqwCaqCbg/view?utm_content=DAGp9xslbdM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4c808dda2d"
+            href="https://www.canva.com/design/DAGp9xslbdM/NzQrWi1mngk3pwO2ZbDI4Q/edit?utm_content=DAGp9xslbdM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
             target="_blank"
             className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-800 shadow-sm hover:border-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-slate-500 dark:hover:bg-slate-900/80"
           >
