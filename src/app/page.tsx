@@ -2,6 +2,8 @@
 
 import ProjectCarousel from "@/components/ProjectCarousel";
 import TechMarquee from "@/components/TechMarquee";
+import Testimonials from "@/components/Testimonials";
+import FAQ from "@/components/FAQ";
 
 export default function HomePage() {
   return (
@@ -93,33 +95,33 @@ export default function HomePage() {
 
           <div className="grid gap-8 md:grid-cols-3">
             {/* Service 1 */}
-            <div className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
+            <div className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
               <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 text-2xl text-violet-600 dark:bg-violet-900/30 dark:text-violet-400">
                 ⚙️
               </div>
               <h3 className="mb-3 text-xl font-semibold text-slate-900 dark:text-slate-50">
                 Automation & AI
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="flex-1 text-slate-600 dark:text-slate-400 leading-relaxed">
                 Workflows with n8n, Python scripts, Chatbots, and process optimization to save you time. Stop doing repetitive data entry.
               </p>
             </div>
 
             {/* Service 2 */}
-            <div className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
+            <div className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
               <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-2xl text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
                 💻
               </div>
               <h3 className="mb-3 text-xl font-semibold text-slate-900 dark:text-slate-50">
                 Web Development
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="flex-1 text-slate-600 dark:text-slate-400 leading-relaxed">
                 High-performance websites, SaaS platforms, and internal dashboards using Next.js and React. Clean code, fast loading.
               </p>
             </div>
 
             {/* Service 3 */}
-            <div className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
+            <div className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
               <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-2xl text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
                 🎓
               </div>
@@ -153,7 +155,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. ABOUT & AUTHORITY */}
+      {/* 4. TESTIMONIALS */}
+      <Testimonials />
+
+      {/* 5. ABOUT & AUTHORITY */}
       <section className="bg-slate-900 py-24 text-slate-300">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="mb-8 text-3xl font-bold text-white">Why Work With Me?</h2>
@@ -182,7 +187,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. FOOTER / CONTACT */}
+      {/* 6. FAQ */}
+      <FAQ />
+
+      {/* 7. FOOTER / CONTACT */}
       <footer id="contact" className="border-t border-slate-200 bg-slate-50 py-20 dark:border-slate-800 dark:bg-slate-950">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
