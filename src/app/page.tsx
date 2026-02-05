@@ -1,6 +1,7 @@
 "use client";
 
 import ProjectCarousel from "@/components/ProjectCarousel";
+import TechMarquee from "@/components/TechMarquee";
 
 export default function HomePage() {
   return (
@@ -35,7 +36,8 @@ export default function HomePage() {
 
           <div className="flex flex-wrap items-center gap-4">
             <a
-              href="#contact"
+              href="https://calendly.com/alexandrecadinot93/30min"
+              target="_blank"
               className="inline-flex h-12 items-center justify-center rounded-full bg-slate-900 px-8 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:bg-slate-800 hover:scale-105 active:scale-95 dark:bg-slate-100 dark:text-slate-900 dark:shadow-slate-100/20 dark:hover:bg-white"
             >
               Book a Free Audit
@@ -73,6 +75,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* TECH MARQUEE */}
+      <TechMarquee />
 
       {/* 2. SERVICES SECTION */}
       <section id="services" className="bg-slate-50/50 py-24 dark:bg-slate-900/50">
@@ -119,11 +124,16 @@ export default function HomePage() {
                 🎓
               </div>
               <h3 className="mb-3 text-xl font-semibold text-slate-900 dark:text-slate-50">
-                Training & Consulting
+                Technical Training & Mentoring
               </h3>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                Technical training (C, Cybersecurity) and architectural audits for your teams. I share my knowledge from 42 Paris and real-world projects.
+                Expert instructor in C, Cybersecurity, and Fullstack MERN. Available for bootcamps and corporate workshops.
               </p>
+              <ul className="mt-4 space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                <li>• <strong>Skills:</strong> C, Cybersecurity, MERN Stack (MongoDB, Express, React, Node), Python (Basics).</li>
+                <li>• <strong>Experience:</strong> Trained students in intensive environments (42 Paris, Konexio).</li>
+                <li>• <strong>Status:</strong> Open for freelance missions or short-term contracts.</li>
+              </ul>
             </div>
           </div>
         </div>
