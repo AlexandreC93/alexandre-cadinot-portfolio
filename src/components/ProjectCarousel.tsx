@@ -1,61 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { projects } from "@/data/projects";
 
-type Project = {
-    id: string;
-    title: string;
-    tag: string;
-    role: string;
-    description: string;
-    tech: string[];
-    link?: string;
-    repo?: string;
-};
-
-const PROJECTS: Project[] = [
-    {
-        id: "rag-chatbot",
-        title: "RAG chatbot for documents",
-        tag: "AI · RAG",
-        role: "Design & implementation",
-        description:
-            "Assistant that answers from company docs, available on WhatsApp and a web widget. Uses vector search, summarisation and guardrails.",
-        tech: ["Next.js", "n8n", "MongoDB", "OpenAI"],
-        link: "#",
-        repo: "#",
-    },
-    {
-        id: "ft-transcendence",
-        title: "ft_transcendence — real-time game",
-        tag: "42 · Full-stack",
-        role: "Backend & real-time logic",
-        description:
-            "Pong-like game with auth, matchmaking, chat and ladder. Real-time gameplay, clean UI and a focus on reliability.",
-        tech: ["Django", "PostgreSQL", "WebSockets", "Docker"],
-        repo: "#",
-    },
-    {
-        id: "webserv",
-        title: "Webserv — HTTP server in C++98",
-        tag: "42 · Low-level",
-        role: "Networking & HTTP implementation",
-        description:
-            "HTTP/1.1 server from scratch with multiple vhosts, CGI support and chunked transfer. Benchmarked against nginx on various workloads.",
-        tech: ["C++98", "Sockets", "CGI"],
-        repo: "#",
-    },
-];
-
+// Logic for infinite loop navigation
 export default function ProjectCarousel() {
     const [index, setIndex] = useState(0);
-    const active = PROJECTS[index];
+    const active = projects[index];
 
     function goTo(i: number) {
-        if (i < 0) i = PROJECTS.length - 1;
-        if (i >= PROJECTS.length) i = 0;
+        if (i < 0) i = projects.length - 1;
+        if (i >= projects.length) i = 0;
         setIndex(i);
     }
+
+    // Prepare duplicated list for "infinite scroll" visual if needed in future, 
+    // but here we stick to the navigation list as before.
+    // Ensure unique keys if we were duplicating.
 
     return (
         <section id="projects" className="mx-auto mt-16 max-w-5xl px-4 sm:px-6 lg:px-0">
@@ -71,25 +33,29 @@ export default function ProjectCarousel() {
                 <div className="flex gap-2 text-xs text-slate-500 dark:text-slate-400">
                     <span>{index + 1}</span>
                     <span>/</span>
-                    <span>{PROJECTS.length}</span>
+                    <span>{projects.length}</span>
                 </div>
             </header>
 
             <div className="grid gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-stretch">
-                {/* Carte principale */}
+                {/* Main Card */}
                 <div className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/80">
                     <div className="flex items-center justify-between gap-3">
                         <div className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                            {active.tag}
+                            {active.tagline}
                         </div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                            {active.role}
-                        </div>
+                        {active.role && (
+                            <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                                {active.role}
+                            </div>
+                        )}
                     </div>
 
                     <div className="mt-4">
                         <h3 className="text-xl sm:text-2xl font-semibold tracking-tight">
-                            {active.title}
+                            <Link href={`/projects/${active.id}`} className="hover:underline decoration-slate-400 underline-offset-4">
+                                {active.title}
+                            </Link>
                         </h3>
                         <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                             {active.description}
@@ -99,7 +65,7 @@ export default function ProjectCarousel() {
                     <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                         {active.tech.map((t) => (
                             <span
-                                key={t}
+                                key={`${active.id}-${t}`}
                                 className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700"
                             >
                                 {t}
@@ -108,17 +74,27 @@ export default function ProjectCarousel() {
                     </div>
 
                     <div className="mt-5 flex flex-wrap gap-3 text-sm">
+                        <Link
+                            href={`/projects/${active.id}`}
+                            className="rounded-full bg-slate-900 px-4 py-2 text-slate-50 hover:bg-black dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-white"
+                        >
+                            View details
+                        </Link>
                         {active.link && (
                             <a
                                 href={active.link}
-                                className="rounded-full bg-slate-900 px-4 py-2 text-slate-50 hover:bg-black dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-white"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="rounded-full border border-slate-300 px-4 py-2 text-slate-700 hover:border-slate-500 dark:border-slate-700 dark:text-slate-200 dark:hover:border-slate-400"
                             >
-                                View demo
+                                Live demo
                             </a>
                         )}
                         {active.repo && (
                             <a
                                 href={active.repo}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="rounded-full border border-slate-300 px-4 py-2 text-slate-700 hover:border-slate-500 dark:border-slate-700 dark:text-slate-200 dark:hover:border-slate-400"
                             >
                                 View code
@@ -127,7 +103,7 @@ export default function ProjectCarousel() {
                     </div>
                 </div>
 
-                {/* Navigation / mini-cards */}
+                {/* Navigation / List */}
                 <div className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white/70 p-4 text-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/80">
                     <div className="mb-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                         Browse
@@ -149,8 +125,8 @@ export default function ProjectCarousel() {
                         </button>
                     </div>
 
-                    <div className="mt-3 flex flex-col gap-2">
-                        {PROJECTS.map((p, i) => (
+                    <div className="mt-3 flex flex-col gap-2 overflow-y-auto max-h-[400px]">
+                        {projects.map((p, i) => (
                             <button
                                 key={p.id}
                                 type="button"
@@ -163,7 +139,7 @@ export default function ProjectCarousel() {
                             >
                                 <span className="truncate">{p.title}</span>
                                 <span className="ml-2 shrink-0 text-[10px] opacity-80">
-                                    {p.tag}
+                                    {p.tagline}
                                 </span>
                             </button>
                         ))}

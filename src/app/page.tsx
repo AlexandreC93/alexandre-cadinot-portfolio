@@ -2,110 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Project = {
-  id: string;
-  title: string;
-  tag: string;
-  description: string;
-  tech: string[];
-  role: string;
-  href?: string;
-  repo?: string;
-  accent: "emerald" | "sky" | "fuchsia";
-};
-
-const PROJECTS: Project[] = [
-
-  {
-    id: "ft-transcendence",
-    title: "ft_transcendence — real-time game",
-    tag: "42 · Full-stack",
-    description:
-      "Online Pong with auth, matchmaking, chat and ranking. Real-time gameplay, clean API and a focus on reliability.",
-    tech: ["Fullstack", "PostgreSQL", "WebSockets", "Docker"],
-    role: "Backend · Real-time",
-    href: "/projects/ft-transcendence",
-    accent: "sky",
-  },
-  {
-    id: "webserv",
-    title: "Webserv — HTTP server in C++98",
-    tag: "42 · Low-level",
-    description:
-      "Complete HTTP/1.1 server from scratch with vhosts, CGI, chunked transfer and static files. Benchmarked against nginx on basic workloads.",
-    tech: ["C++98", "Sockets", "CGI"],
-    role: "Networking · HTTP",
-    href: "/projects/webserv",
-    accent: "fuchsia",
-  },
-  {
-    id: "minishell",
-    title: "Minishell — Bash-like shell in C",
-    tag: "42 · Systems",
-    description:
-      "A small shell that supports parsing, pipes, redirections, environment variables, builtins and signal handling, inspired by Bash.",
-    tech: ["C", "Unix", "Processes", "Signals"],
-    role: "Systems · CLI tools",
-    href: "/projects/minishell",
-    accent: "emerald",
-  },
-  {
-    id: "push-swap",
-    title: "Push_swap — stack-based sorting",
-    tag: "42 · Algorithms",
-    description:
-      "Sorting integers using two stacks and a limited set of operations, with a strong focus on algorithm design and optimisation.",
-    tech: ["C", "Algorithms", "Complexity"],
-    role: "Algorithms · Optimisation",
-    href: "/projects/push-swap",
-    accent: "fuchsia",
-  },
-  {
-    id: "inception",
-    title: "Inception — Dockerised infrastructure",
-    tag: "42 · DevOps",
-    description:
-      "Multi-container Docker setup with Nginx, WordPress, MariaDB, TLS and volumes. Focus on reproducible, isolated infrastructure.",
-    tech: ["Docker", "docker-compose", "Nginx", "MariaDB"],
-    role: "DevOps · Infra",
-    href: "/projects/inception",
-    accent: "sky",
-  },
-  {
-    id: "cub3d",
-    title: "Cub3D — raycasting 3D engine",
-    tag: "42 · Graphics",
-    description:
-      "A small 3D engine inspired by Wolfenstein 3D, using raycasting to render a world from a 2D map in real time.",
-    tech: ["C", "Raycasting", "Maths", "MiniLibX"],
-    role: "Graphics · Engine",
-    href: "/projects/cub3d",
-    accent: "emerald",
-  },
-  {
-    id: "philosophers",
-    title: "Philosophers — concurrency & threads",
-    tag: "42 · Concurrency",
-    description:
-      "Dining philosophers problem implemented with threads and mutexes, focusing on deadlocks, starvation and timing.",
-    tech: ["C", "Threads", "Mutexes", "Concurrency"],
-    role: "Concurrency · Systems",
-    href: "/projects/philosophers",
-    accent: "fuchsia",
-  },
-
-  {
-    id: "ai-creative",
-    title: " AI MOVIE | AI imagery & video experiments [BUILDING]",
-    tag: "AI · Creative",
-    description:
-      "Experiments around AI-assisted visuals and video for storytelling and fashion, focusing on reliable pipelines rather than just prompt spam.",
-    tech: ["Stable Diffusion", "Video tools", "Prompting"],
-    role: "Exploration · Prototyping",
-    href: "#",
-    accent: "fuchsia",
-  },
-];
+import { projects as PROJECTS } from "@/data/projects";
 
 
 function RevealOnScroll({ children }: { children: React.ReactNode }) {
@@ -173,7 +70,7 @@ export default function HomePage() {
     }, 1500);
   };
 
-  const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
+  const handleWheel: React.WheelEventHandler<HTMLDivElement> = () => {
     // On signale juste l'interaction (pour couper l'auto-scroll),
     // mais on ne touche pas au scroll et on ne fait pas preventDefault.
     notifyInteraction();
@@ -405,7 +302,7 @@ export default function HomePage() {
                 return (
                   <a
                     key={project.id + "-" + idx}
-                    href={project.href ?? project.repo ?? "#"}
+                    href={project.link ? (project.link === "#" ? "#" : project.link) : `/projects/${project.id}`}
                     className="group relative snap-start"
                     onClick={handleCardClick}
                     draggable={false}
@@ -423,7 +320,7 @@ export default function HomePage() {
                           <span
                             className={`rounded-full border px-3 py-1 text-[11px] font-medium ${accentTag}`}
                           >
-                            {project.tag}
+                            {project.tagline}
                           </span>
                           <span className="text-[11px] text-slate-500 dark:text-slate-400">
                             {project.role}

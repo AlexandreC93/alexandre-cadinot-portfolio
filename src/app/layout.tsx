@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Providers } from "@/components/Providers";
 
 import Nav from "@/components/Nav";
 
@@ -19,9 +20,11 @@ export default function RootLayout({
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
-        <Nav />
-        {children}
-        <SpeedInsights />
+        <Providers>
+          <Nav />
+          {children}
+          <SpeedInsights />
+        </Providers>
       </body>
     </html>
   );
